@@ -22,7 +22,7 @@ The demo has been developed in **React** and **Typescript**, using **Next.js**, 
 
 ## Live demo
 
-[https://movies-demo.vercel.app/](https://movies-demo.vercel.app/)
+[https://moviesdemo.vercel.app/](https://moviesdemo.vercel.app/)
 
 # Installation
 
