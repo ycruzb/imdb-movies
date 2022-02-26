@@ -1,6 +1,10 @@
+import Link from "next/link"
+
 const Header = () => {
 	return <header className="w-full">
-		<h1 className="container mx-auto text-gray-800 text-2xl font-semibold px-5 py-4 text-center">IMDb movies demo</h1>
+		<Link href="/">
+			<a className="container block mx-auto text-gray-800 text-2xl font-semibold px-5 py-4 text-center">IMDb movies demo</a>
+		</Link>
 	</header>
 }
 
