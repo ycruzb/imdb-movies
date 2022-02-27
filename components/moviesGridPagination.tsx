@@ -6,7 +6,7 @@ interface IProps {
 }
 
 const MoviesGridPagination = ({ page, pages }: IProps) => {
-	return <div className='flex justify-around py-8'>
+	return <div className='flex justify-around pt-8 pb-0'>
 		<div>
 			{page > 1 &&
 				<Link href={page > 2 ? `/movies/${page - 1}` : `/`}>
