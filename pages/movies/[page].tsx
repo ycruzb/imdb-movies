@@ -4,12 +4,15 @@ import { useRouter } from "next/router"
 import { GetServerSideProps } from "next";
 import { PrismaClient } from "@prisma/client";
 import MoviesGrid from "../../components/moviesGrid"
+import { itemsByPage, errorMessage } from "../../constants/constants"
+import ErrorMessage from "../../components/errorMessage"
+
 
 interface IProps {
 	movies: Movie[];
 	page: number;
 	pages: number;
-	error: boolean;
+	error: boolean | string;
 }
 
 const Movies = ({ movies, page, pages, error }: IProps) => {
@@ -23,12 +26,9 @@ const Movies = ({ movies, page, pages, error }: IProps) => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			{error && <div className='w-full'>
-				<p className='w-full text-red-700'>{error}</p>
-				<button onClick={() => { router.reload() }}>Aceptar</button>
-			</div>}
+			{error && <ErrorMessage error={error} />}
 
-			{!error && movies && <MoviesGrid movies={movies} page={page} pages={pages} />}
+			{!error && <MoviesGrid movies={movies} page={page} pages={pages} />}
 		</div >
 	)
 }
@@ -40,12 +40,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { page } = context.query;
 	try {
 		const movies = await prisma.movie.findMany({
-			skip: (parseInt(page as string) - 1) * 16,
-			take: 16,
+			skip: (parseInt(page as string) - 1) * itemsByPage,
+			take: itemsByPage,
 		});
 		const moviesCount = await prisma.movie.count();
-		return { props: { movies, page: parseInt(page as string), pages: Math.ceil(moviesCount / 16), error: false } }
+		return { props: { movies, page: parseInt(page as string), pages: Math.ceil(moviesCount / itemsByPage), error: false } }
 	} catch (error) {
-		return { props: { error: true, movies: [], pages: 0, page: 0 } }
+		return { props: { error: errorMessage, movies: [], pages: 0, page: 0 } }
 	}
 }
